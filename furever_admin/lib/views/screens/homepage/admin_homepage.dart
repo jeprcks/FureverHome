@@ -8,6 +8,7 @@ import 'package:furever_home_admin/views/screens/dogs/dogslist.dart';
 import 'package:furever_home_admin/views/screens/clients/clients.dart';
 import 'package:furever_home_admin/views/screens/AdoptedDogs/adopted.dart';
 import 'package:furever_home_admin/views/screens/Merch/merch.dart';
+import 'package:furever_home_admin/views/screens/Donations/donations.dart';
 
 class AdminHomeView extends StatefulWidget {
   final GlobalKey<ScaffoldState>? scaffoldKey;
@@ -134,7 +135,7 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const DonationListScreen(),
+                    builder: (context) => const TopDonatorsScreen(),
                   ),
                 );
                 break;
