@@ -18,7 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               .collection('admins')
               .doc(currentUser.uid)
               .get();
-          
+
           if (adminDoc.exists) {
             emit(Authenticated(currentUser));
           } else {
@@ -39,7 +39,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           email: event.email,
           password: event.password,
         );
-        emit(Authenticated(FirebaseAuth.instance.currentUser!));
+
+        // Get the current user after sign in
+        final currentUser = FirebaseAuth.instance.currentUser;
+        if (currentUser != null) {
+          // Check if user is an admin
+          final adminDoc = await FirebaseFirestore.instance
+              .collection('admins')
+              .doc(currentUser.uid)
+              .get();
+
+          if (adminDoc.exists) {
+            emit(Authenticated(currentUser));
+          } else {
+            await authRepository.signOut(); // Sign out if not an admin
+            emit(AuthError('Not authorized as admin'));
+            emit(UnAuthenticated());
+          }
+        } else {
+          emit(UnAuthenticated());
+        }
       } catch (e) {
         emit(AuthError(e.toString()));
         emit(UnAuthenticated());
