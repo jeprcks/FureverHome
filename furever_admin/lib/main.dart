@@ -42,23 +42,36 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      home: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
-          // Show loading screen for initial state
-          if (state is AuthInitial || state is AuthLoading) {
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
+      home: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is Authenticated) {
+            // Force navigation to AdminHomeView when authentication is successful
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => const AdminHomeView(),
               ),
+              (route) => false,
             );
           }
-
-          if (state is Authenticated) {
-            return const AdminHomeView();
-          }
-
-          return AdminSignInView();
         },
+        child: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            // Show loading screen for initial state
+            if (state is AuthInitial || state is AuthLoading) {
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+
+            if (state is Authenticated) {
+              return const AdminHomeView();
+            }
+
+            return AdminSignInView();
+          },
+        ),
       ),
     );
   }

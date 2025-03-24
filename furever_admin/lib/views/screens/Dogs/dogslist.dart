@@ -124,15 +124,9 @@ class DogsListScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AddDogScreen(),
-            ),
-          );
+          Navigator.of(context).push(AddDogScreen.route());
         },
-        backgroundColor: Colors.blue[900],
-        child: const Icon(Icons.add, color: Colors.white),
+        child: const Icon(Icons.add),
       ),
     );
   }

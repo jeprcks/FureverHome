@@ -12,6 +12,8 @@ import 'package:furever_home_admin/views/screens/AdoptedDogs/adopted.dart';
 import 'package:furever_home_admin/views/screens/Merch/merch.dart';
 import 'package:furever_home_admin/views/screens/Donations/donations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AdminHomeView extends StatefulWidget {
   final GlobalKey<ScaffoldState>? scaffoldKey;
@@ -52,16 +54,50 @@ class _AdminHomeViewState extends State<AdminHomeView> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue[900],
+            UserAccountsDrawerHeader(
+              accountName: StreamBuilder<DocumentSnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('admins')
+                    .doc(FirebaseAuth.instance.currentUser?.uid)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData && snapshot.data?.exists == true) {
+                    final adminData =
+                        snapshot.data?.data() as Map<String, dynamic>?;
+                    final adminName = adminData?['name'] ?? 'Admin User';
+                    return Text(
+                      adminName,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    );
+                  }
+                  return Text(
+                    'Admin User',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  );
+                },
               ),
-              child: const Text(
-                'Furever Home',
-                style: TextStyle(
+              accountEmail: Text(
+                FirebaseAuth.instance.currentUser?.email ?? '',
+                style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
                 ),
+              ),
+              currentAccountPicture: const CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(
+                  Icons.person,
+                  size: 40,
+                  color: Colors.blue,
+                ),
+              ),
+              decoration: const BoxDecoration(
+                color: Colors.blue,
               ),
             ),
             _buildDrawerItem(0, Icons.home, 'Home', isHome: true),

@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'bloc/dog_bloc.dart';
 import 'bloc/dog_event.dart';
 import 'bloc/dog_state.dart';
-import 'dart:io';
 
 class AddDogScreen extends StatefulWidget {
   const AddDogScreen({super.key});
+
+  static Route<void> route() {
+    return MaterialPageRoute(
+      builder: (context) => BlocProvider(
+        create: (context) => DogBloc(), // Provide DogBloc here
+        child: const AddDogScreen(),
+      ),
+    );
+  }
 
   @override
   State<AddDogScreen> createState() => _AddDogScreenState();
@@ -22,6 +33,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
   final _descriptionController = TextEditingController();
   File? _imageFile;
   final _picker = ImagePicker();
+  Uint8List? webImage; // Add this for web support
 
   final _medicalRecordController = TextEditingController();
 
@@ -32,12 +44,40 @@ class _AddDogScreenState extends State<AddDogScreen> {
   };
 
   Future<void> _pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _imageFile = File(pickedFile.path);
-      });
+    try {
+      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        if (kIsWeb) {
+          // Handle web platform
+          final bytes = await pickedFile.readAsBytes();
+          setState(() {
+            webImage = bytes;
+          });
+        } else {
+          // Handle mobile platform
+          setState(() {
+            _imageFile = File(pickedFile.path);
+          });
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error picking image: $e')),
+      );
     }
+  }
+
+  Widget _buildImageWidget() {
+    if (kIsWeb) {
+      if (webImage != null) {
+        return Image.memory(webImage!, fit: BoxFit.cover);
+      }
+    } else {
+      if (_imageFile != null) {
+        return Image.file(_imageFile!, fit: BoxFit.cover);
+      }
+    }
+    return const Icon(Icons.add_a_photo, size: 50);
   }
 
   @override
@@ -76,9 +116,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: _imageFile != null
-                          ? Image.file(_imageFile!, fit: BoxFit.cover)
-                          : const Icon(Icons.add_a_photo, size: 50),
+                      child: _buildImageWidget(),
                     ),
                   ),
                 ),
@@ -181,8 +219,15 @@ class _AddDogScreenState extends State<AddDogScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        String imageData = '';
+                        if (kIsWeb && webImage != null) {
+                          imageData = webImage.toString();
+                        } else if (_imageFile != null) {
+                          imageData = _imageFile!.path;
+                        }
+
                         context.read<DogBloc>().add(
                               AddDog(
                                 name: _nameController.text,
@@ -190,7 +235,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
                                 gender: _selectedGender,
                                 size: _selectedSize,
                                 medicalRecords: _medicalRecords,
-                                imageUrl: _imageFile?.path ?? '',
+                                imageUrl: imageData,
                                 description: _descriptionController.text,
                               ),
                             );
