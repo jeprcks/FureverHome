@@ -9,59 +9,69 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
+      body: Container(
+        color: Color(0xFF32649B),
+        child: SafeArea(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: AuthButton(
-                      title: 'Sign In',
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignInScreen(),
-                          ),
-                        );
-                      },
+                  // Logo
+                  Image.asset(
+                    'assets/images/Furever_logo.png',
+                    height: 250,
+                    width: 250,
+                  ),
+                   const Text(
+                    'Help a Pet Find their Furver Home.',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(221, 255, 255, 255),
                     ),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: AuthButton(
-                      title: 'Sign Up',
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignUpScreen(),
-                          ),
-                        );
-                      },
-                    ),
+                  const SizedBox(height: 48),
+                  
+                  // Sign In Button
+                  SizedBox(
+                    width: 250,
+                    child:  AuthButton(
+                    title: 'Sign In',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignInScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  ),
+                  const SizedBox(height: 12),
+                  
+                  // Sign Up Button
+                  SizedBox(
+                    width: 250,
+                    child:  AuthButton(
+                    title: 'Sign Up',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignUpScreen(),
+                        ),
+                      );
+                    },
+                  ),
                   ),
                 ],
               ),
             ),
-            const Expanded(
-              child: Center(
-                child: Text(
-                  'Furever Home',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
-
-

@@ -3,6 +3,7 @@ import 'package:furever_home/views/screens/adopted_dogs_screen.dart';
 import 'package:furever_home/views/screens/dog_screen.dart';
 import 'package:furever_home/views/screens/donation_screen.dart';
 import 'package:furever_home/views/screens/event_screen.dart';
+import 'package:furever_home/views/screens/merch_screen.dart';
 import 'medical_services_screen.dart';
 import 'about_screen.dart';
 
@@ -102,6 +103,19 @@ class HomeScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const MedicalServicesScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.shopping_bag),
+              title: const Text('Merch'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MerchScreen(),
                   ),
                 );
               },
