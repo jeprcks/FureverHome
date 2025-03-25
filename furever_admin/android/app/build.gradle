@@ -1,0 +1,13 @@
+android {
+    namespace "com.example.furever_home_admin"
+    compileSdkVersion flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
+
+    defaultConfig {
+        applicationId "com.example.furever_home_admin"
+        minSdkVersion 23
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+}

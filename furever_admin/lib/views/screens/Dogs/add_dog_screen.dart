@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:convert';
 import 'bloc/dog_bloc.dart';
 import 'bloc/dog_event.dart';
 import 'bloc/dog_state.dart';
@@ -45,22 +46,20 @@ class _AddDogScreenState extends State<AddDogScreen> {
 
   Future<void> _pickImage() async {
     try {
-      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      final pickedFile = await _picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 1024, // Limit image size
+        maxHeight: 1024,
+        imageQuality: 85, // Compress image
+      );
       if (pickedFile != null) {
-        if (kIsWeb) {
-          // Handle web platform
-          final bytes = await pickedFile.readAsBytes();
-          setState(() {
-            webImage = bytes;
-          });
-        } else {
-          // Handle mobile platform
-          setState(() {
-            _imageFile = File(pickedFile.path);
-          });
-        }
+        final bytes = await pickedFile.readAsBytes();
+        setState(() {
+          webImage = bytes;
+        });
       }
     } catch (e) {
+      print('Error picking image: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error picking image: $e')),
       );
@@ -221,24 +220,29 @@ class _AddDogScreenState extends State<AddDogScreen> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        String imageData = '';
-                        if (kIsWeb && webImage != null) {
-                          imageData = webImage.toString();
-                        } else if (_imageFile != null) {
-                          imageData = _imageFile!.path;
-                        }
+                        try {
+                          String imageData = '';
+                          if (webImage != null) {
+                            // Convert bytes to base64
+                            imageData = base64Encode(webImage!);
+                          }
 
-                        context.read<DogBloc>().add(
-                              AddDog(
-                                name: _nameController.text,
-                                breed: _breedController.text,
-                                gender: _selectedGender,
-                                size: _selectedSize,
-                                medicalRecords: _medicalRecords,
-                                imageUrl: imageData,
-                                description: _descriptionController.text,
-                              ),
-                            );
+                          context.read<DogBloc>().add(
+                                AddDog(
+                                  name: _nameController.text,
+                                  breed: _breedController.text,
+                                  gender: _selectedGender,
+                                  size: _selectedSize,
+                                  medicalRecords: _medicalRecords,
+                                  imageUrl: imageData,
+                                  description: _descriptionController.text,
+                                ),
+                              );
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Error: $e')),
+                          );
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(

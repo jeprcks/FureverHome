@@ -6,6 +6,8 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:typed_data';
+import 'package:path/path.dart' as path;
+import 'dart:convert';
 
 class DogBloc extends Bloc<DogEvent, DogState> {
   DogBloc() : super(DogInitial()) {
@@ -16,22 +18,28 @@ class DogBloc extends Bloc<DogEvent, DogState> {
         String imageUrl = '';
         if (event.imageUrl.isNotEmpty) {
           final storageRef = FirebaseStorage.instance.ref();
-          final imageRef = storageRef
-              .child('dogs/${DateTime.now().millisecondsSinceEpoch}.jpg');
+          final String fileName =
+              '${DateTime.now().millisecondsSinceEpoch}.jpg';
+          final imageRef = storageRef.child('dogs/$fileName');
 
-          if (kIsWeb) {
-            // Handle web image upload
-            final bytes = Uint8List.fromList(event.imageUrl.codeUnits);
-            await imageRef.putData(bytes);
-          } else {
-            // Handle mobile image upload
-            final file = File(event.imageUrl);
-            await imageRef.putFile(file);
+          try {
+            // Convert base64 to bytes
+            final Uint8List imageBytes = base64Decode(event.imageUrl);
+
+            // Upload to Firebase Storage
+            await imageRef.putData(
+                imageBytes, SettableMetadata(contentType: 'image/jpeg'));
+
+            // Get download URL
+            imageUrl = await imageRef.getDownloadURL();
+          } catch (storageError) {
+            print('Storage error: $storageError');
+            emit(DogError('Failed to upload image: $storageError'));
+            return;
           }
-
-          imageUrl = await imageRef.getDownloadURL();
         }
 
+        // Add to Firestore
         await FirebaseFirestore.instance.collection('dogs').add({
           'name': event.name,
           'breed': event.breed,

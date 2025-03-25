@@ -47,30 +47,31 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBWnZmiYxJxNLMkClmxf2nuceddNNHH0Do',
-    appId: '1:170673707522:web:f1a0ea72c35fe06c5b651b',
-    messagingSenderId: '170673707522',
-    projectId: 'furever-home-882fd',
-    authDomain: 'furever-home-882fd.firebaseapp.com',
-    storageBucket: 'furever-home-882fd.firebasestorage.app',
-    measurementId: 'G-WMD4KYLV4C',
+    apiKey: 'AIzaSyABy6ow7XNj_Wh7ehpaUyjiao5mRx1d4c8',
+    appId: '1:916629239711:web:6951c0c58259d2e5c9efaa',
+    messagingSenderId: '916629239711',
+    projectId: 'practice-todo-example',
+    authDomain: 'practice-todo-example.firebaseapp.com',
+    storageBucket: 'practice-todo-example.appspot.com',
+    measurementId: 'G-V0RTPNT8Z1',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBQIusxWrWeV4qzkzO7jaCAHI2xLp9oTxk',
-    appId: '1:170673707522:android:f4f45aa9fb6ab3675b651b',
-    messagingSenderId: '170673707522',
-    projectId: 'furever-home-882fd',
-    storageBucket: 'furever-home-882fd.firebasestorage.app',
+    apiKey: 'AIzaSyDT-pYXFX-kuPjS9tEZdlPggWtjPVtWehQ',
+    appId: '1:916629239711:android:2582854b5e9a7029c9efaa',
+    messagingSenderId: '916629239711',
+    projectId: 'practice-todo-example',
+    storageBucket: 'practice-todo-example.appspot.com',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBWnZmiYxJxNLMkClmxf2nuceddNNHH0Do',
-    appId: '1:170673707522:web:5ca1f3aa83f0850f5b651b',
-    messagingSenderId: '170673707522',
-    projectId: 'furever-home-882fd',
-    authDomain: 'furever-home-882fd.firebaseapp.com',
-    storageBucket: 'furever-home-882fd.firebasestorage.app',
-    measurementId: 'G-ZJECNXHD2B',
+    apiKey: 'AIzaSyABy6ow7XNj_Wh7ehpaUyjiao5mRx1d4c8',
+    appId: '1:916629239711:web:e3e056de12292824c9efaa',
+    messagingSenderId: '916629239711',
+    projectId: 'practice-todo-example',
+    authDomain: 'practice-todo-example.firebaseapp.com',
+    storageBucket: 'practice-todo-example.appspot.com',
+    measurementId: 'G-77JR1ZP428',
   );
+
 }

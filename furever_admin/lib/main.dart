@@ -1,4 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:furever_home_admin/firebase_options.dart';
@@ -13,16 +16,32 @@ import 'views/screens/authentication/login/admin_signin_view.dart';
 // main.dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Configure Firebase Storage for web
+  if (kIsWeb) {
+    await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+    FirebaseStorage.instance.setMaxUploadRetryTime(const Duration(seconds: 30));
+    FirebaseStorage.instance
+        .setMaxOperationRetryTime(const Duration(seconds: 30));
+    FirebaseStorage.instance
+        .setMaxDownloadRetryTime(const Duration(seconds: 30));
+  }
+
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(
             authRepository: AuthRepository(),
-          )..add(AuthCheckRequested()), // Add this event
+          )..add(AuthCheckRequested()),
+        ),
+        // Add DogBloc provider
+        BlocProvider<DogBloc>(
+          create: (context) => DogBloc(),
         ),
       ],
       child: const MyApp(),
