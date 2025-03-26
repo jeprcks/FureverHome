@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-<<<<<<< HEAD
 import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -9,17 +8,10 @@ import 'dart:convert';
 import 'bloc/dog_bloc.dart';
 import 'bloc/dog_event.dart';
 import 'bloc/dog_state.dart';
-=======
-import 'bloc/dog_bloc.dart';
-import 'bloc/dog_event.dart';
-import 'bloc/dog_state.dart';
-import 'dart:io';
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
 
 class AddDogScreen extends StatefulWidget {
   const AddDogScreen({super.key});
 
-<<<<<<< HEAD
   static Route<void> route() {
     return MaterialPageRoute(
       builder: (context) => BlocProvider(
@@ -29,8 +21,6 @@ class AddDogScreen extends StatefulWidget {
     );
   }
 
-=======
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
   @override
   State<AddDogScreen> createState() => _AddDogScreenState();
 }
@@ -44,10 +34,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
   final _descriptionController = TextEditingController();
   File? _imageFile;
   final _picker = ImagePicker();
-<<<<<<< HEAD
   Uint8List? webImage; // Add this for web support
-=======
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
 
   final _medicalRecordController = TextEditingController();
 
@@ -58,7 +45,6 @@ class _AddDogScreenState extends State<AddDogScreen> {
   };
 
   Future<void> _pickImage() async {
-<<<<<<< HEAD
     try {
       final pickedFile = await _picker.pickImage(
         source: ImageSource.gallery,
@@ -93,16 +79,6 @@ class _AddDogScreenState extends State<AddDogScreen> {
     return const Icon(Icons.add_a_photo, size: 50);
   }
 
-=======
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _imageFile = File(pickedFile.path);
-      });
-    }
-  }
-
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,13 +115,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(10),
                       ),
-<<<<<<< HEAD
                       child: _buildImageWidget(),
-=======
-                      child: _imageFile != null
-                          ? Image.file(_imageFile!, fit: BoxFit.cover)
-                          : const Icon(Icons.add_a_photo, size: 50),
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
                     ),
                   ),
                 ),
@@ -248,7 +218,6 @@ class _AddDogScreenState extends State<AddDogScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-<<<<<<< HEAD
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         try {
@@ -274,21 +243,6 @@ class _AddDogScreenState extends State<AddDogScreen> {
                             SnackBar(content: Text('Error: $e')),
                           );
                         }
-=======
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        context.read<DogBloc>().add(
-                              AddDog(
-                                name: _nameController.text,
-                                breed: _breedController.text,
-                                gender: _selectedGender,
-                                size: _selectedSize,
-                                medicalRecords: _medicalRecords,
-                                imageUrl: _imageFile?.path ?? '',
-                                description: _descriptionController.text,
-                              ),
-                            );
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
                       }
                     },
                     style: ElevatedButton.styleFrom(

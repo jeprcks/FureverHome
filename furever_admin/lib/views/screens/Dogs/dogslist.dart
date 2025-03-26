@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:furever_home_admin/views/screens/Dogs/add_dog_screen.dart';
 import 'package:http/http.dart' as http;
-=======
-import 'package:furever_home_admin/views/screens/Dogs/add_dog_screen.dart';
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
 
 class DogsListScreen extends StatelessWidget {
   const DogsListScreen({super.key});
 
-<<<<<<< HEAD
   Future<String> _getDownloadUrl(String imagePath) async {
     try {
       final ref = FirebaseStorage.instance.ref(imagePath);
@@ -112,15 +107,12 @@ class DogsListScreen extends StatelessWidget {
     );
   }
 
-=======
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dogs List'),
       ),
-<<<<<<< HEAD
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('dogs')
@@ -225,151 +217,25 @@ class DogsListScreen extends StatelessWidget {
                             ],
                           ),
                         ],
-=======
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return Card(
-            margin: const EdgeInsets.only(bottom: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  children: [
-                    Image.network(
-                      'https://placedog.net/500/300?id=${index + 1}',
-                      height: 200,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                    Positioned(
-                      top: 12,
-                      right: 12,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.black54,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          '${index + 1} year old',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
-                        ),
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
                       ),
                     ),
                   ],
                 ),
-<<<<<<< HEAD
               );
             },
-=======
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _getDogName(index),
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        _getDogBreed(index),
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.male,
-                            size: 16,
-                            color: Colors.grey[600],
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            'Male',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Icon(
-                            Icons.straighten,
-                            size: 16,
-                            color: Colors.grey[600],
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            'Medium',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () => _showDogDetails(context, index),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue[900],
-                                foregroundColor: Colors.white,
-                              ),
-                              child: const Text('View Details'),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-<<<<<<< HEAD
           Navigator.of(context).push(AddDogScreen.route());
         },
         child: const Icon(Icons.add),
-=======
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AddDogScreen(),
-            ),
-          );
-        },
-        backgroundColor: Colors.blue[900],
-        child: const Icon(Icons.add, color: Colors.white),
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
       ),
     );
   }
 
-<<<<<<< HEAD
   void _showDogDetails(BuildContext context, Map<String, dynamic> dog) {
-=======
-  void _showDogDetails(BuildContext context, int index) {
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -385,7 +251,6 @@ class DogsListScreen extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-<<<<<<< HEAD
                 child: dog['imageUrl'] != null &&
                         dog['imageUrl'].toString().isNotEmpty
                     ? FutureBuilder<String>(
@@ -459,18 +324,6 @@ class DogsListScreen extends StatelessWidget {
               const SizedBox(height: 20),
               Text(
                 dog['name'] ?? 'Unknown',
-=======
-                child: Image.network(
-                  'https://placedog.net/500/300?id=${index + 1}',
-                  height: 200,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                _getDogName(index),
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -478,11 +331,7 @@ class DogsListScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-<<<<<<< HEAD
                 dog['breed'] ?? 'Unknown breed',
-=======
-                _getDogBreed(index),
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.grey[600],
@@ -492,14 +341,8 @@ class DogsListScreen extends StatelessWidget {
               Wrap(
                 spacing: 8,
                 children: [
-<<<<<<< HEAD
                   _buildDetailChip(Icons.pets, dog['gender'] ?? 'Unknown'),
                   _buildDetailChip(Icons.straighten, dog['size'] ?? 'Unknown'),
-=======
-                  _buildDetailChip(Icons.cake, '2y'),
-                  _buildDetailChip(Icons.male, 'Male'),
-                  _buildDetailChip(Icons.straighten, 'Medium'),
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
                 ],
               ),
               const SizedBox(height: 24),
@@ -512,11 +355,7 @@ class DogsListScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-<<<<<<< HEAD
                 dog['medicalRecords'] ?? 'No medical records available',
-=======
-                '• Vaccinated: Complete\n• Dewormed: Yes\n• Spayed/Neutered: Yes',
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey[600],
@@ -533,11 +372,7 @@ class DogsListScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-<<<<<<< HEAD
                 dog['description'] ?? 'No description available',
-=======
-                _getDogDescription(index),
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey[600],
@@ -574,34 +409,4 @@ class DogsListScreen extends StatelessWidget {
       ),
     );
   }
-<<<<<<< HEAD
-=======
-
-  String _getDogName(int index) {
-    final names = ['Max', 'Luna', 'Charlie', 'Bella', 'Rocky'];
-    return names[index];
-  }
-
-  String _getDogBreed(int index) {
-    final breeds = [
-      'Golden Retriever',
-      'German Shepherd',
-      'Labrador',
-      'Aspin',
-      'Husky'
-    ];
-    return breeds[index];
-  }
-
-  String _getDogDescription(int index) {
-    final descriptions = [
-      'Max is a friendly and energetic Golden Retriever who loves to play fetch and go for long walks. He\'s great with children and other dogs.',
-      'Luna is a curious and intelligent German Shepherd puppy. She\'s already showing great potential for training and loves to learn new tricks.',
-      'Charlie is a gentle Labrador who enjoys swimming and cuddles. He\'s perfect for an active family.',
-      'Bella is a sweet Aspin who was rescued from the streets. She\'s very loyal and protective of her loved ones.',
-      'Rocky is a playful Husky who needs lots of exercise and attention. He\'s best suited for an experienced dog owner.'
-    ];
-    return descriptions[index];
-  }
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
 }

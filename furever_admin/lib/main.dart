@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -51,24 +50,11 @@ void main() async {
 }
 
 // main.dart
-=======
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'views/screens/Dogs/bloc/dog_bloc.dart';
-import 'views/screens/login/admin_signin_view.dart';
-
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
-}
-
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     return MaterialApp(
       title: 'Furever Home Admin',
       theme: ThemeData(
@@ -105,21 +91,6 @@ class MyApp extends StatelessWidget {
             return AdminSignInView();
           },
         ),
-=======
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<DogBloc>(
-          create: (context) => DogBloc(),
-        ),
-      ],
-      child: MaterialApp(
-        title: 'Furever Home Admin',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          useMaterial3: true,
-        ),
-        home: const AdminSignInView(),
->>>>>>> 749f3cfcf46c5f13a58aa0691cf37d6685291481
       ),
     );
   }
