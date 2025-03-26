@@ -44,6 +44,3 @@ A management application that enables administrators to:
 - iOS 11.0 or higher (for iOS deployment)
 - Android 5.0 (API level 21) or higher (for Android deployment)
 
-## 🚀 Getting Started
-
-1. Clone the repositories:
