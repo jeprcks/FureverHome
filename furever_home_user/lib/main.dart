@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furever_home/views/screens/merch_screen.dart';
+import 'package:furever_home/views/screens/adopted_dogs_screen.dart';
 //import 'package:furever_home/views/screens/home_screen.dart';//
 
 void main() {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const MerchScreen(),
+      home: const AdoptedDogsScreen(),
     );
   }
 }
