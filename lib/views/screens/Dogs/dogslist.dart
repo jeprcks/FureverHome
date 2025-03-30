@@ -5,6 +5,7 @@ import 'package:furever_home_admin/views/screens/Dogs/bloc/dog_bloc.dart';
 import 'package:furever_home_admin/views/screens/Dogs/bloc/dog_event.dart';
 import 'package:furever_home_admin/views/screens/Dogs/bloc/dog_state.dart';
 import 'package:furever_home_admin/views/screens/Dogs/models/dog_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class DogsListScreen extends StatelessWidget {
   const DogsListScreen({super.key});
@@ -38,7 +39,8 @@ class DogsListScreen extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               }
               if (state is DogError) {
-                return Center(child: Text(state.message));
+                return Center(
+                    child: Text(state.message)); // Now matches the state class
               }
               if (state is DogsLoaded) {
                 return ListView.builder(
@@ -55,37 +57,23 @@ class DogsListScreen extends StatelessWidget {
                             children: [
                               if (dog.imageUrl != null &&
                                   dog.imageUrl!.isNotEmpty)
-                                Container(
-                                  padding: const EdgeInsets.all(16),
+                                CachedNetworkImage(
+                                  imageUrl: dog.imageUrl!,
                                   height: 200,
-                                  color: Colors.grey[200],
                                   width: double.infinity,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        'Image URL:',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Expanded(
-                                        child: SingleChildScrollView(
-                                          child: SelectableText(
-                                            dog.imageUrl!,
-                                            style: TextStyle(
-                                              color: Colors.blue[900],
-                                              fontSize: 14,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => Container(
+                                    height: 200,
+                                    color: Colors.grey[200],
+                                    child: const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    height: 200,
+                                    color: Colors.grey[300],
+                                    child: const Icon(Icons.error),
                                   ),
                                 )
                               else
@@ -235,12 +223,19 @@ class DogDetailsBottomSheet extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.network(
-                    dog.imageUrl!,
+                  child: CachedNetworkImage(
+                    imageUrl: dog.imageUrl!,
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
+                    placeholder: (context, url) => Container(
+                      height: 200,
+                      color: Colors.grey[200],
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Container(
                       height: 200,
                       color: Colors.grey[300],
                       child: const Icon(Icons.error),

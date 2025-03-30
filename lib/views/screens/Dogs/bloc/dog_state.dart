@@ -14,6 +14,6 @@ class DogsLoaded extends DogState {
 class DogSuccess extends DogState {}
 
 class DogError extends DogState {
-  final String message;
-  DogError(this.message);
+  final String message; // Changed from 'error' to 'message'
+  DogError({required this.message});
 }

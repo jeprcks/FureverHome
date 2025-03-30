@@ -4,8 +4,8 @@ class Dog {
   final String breed;
   final String gender;
   final String size;
-  final String? imageUrl;
   final String? description;
+  final String? imageUrl;
   final Map<String, bool> medicalRecords;
 
   Dog({
@@ -14,10 +14,57 @@ class Dog {
     required this.breed,
     required this.gender,
     required this.size,
-    this.imageUrl,
     this.description,
+    this.imageUrl,
     required this.medicalRecords,
   });
+
+  factory Dog.fromJson(Map<String, dynamic> json) {
+    return Dog(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      breed: json['breed'] as String,
+      gender: json['gender'] as String,
+      size: json['size'] as String,
+      description: json['description'] as String?,
+      imageUrl: json['imageUrl'] as String?,
+      medicalRecords: Map<String, bool>.from(json['medicalRecords'] as Map),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'breed': breed,
+      'gender': gender,
+      'size': size,
+      'description': description,
+      'imageUrl': imageUrl,
+      'medicalRecords': medicalRecords,
+    };
+  }
+
+  Dog copyWith({
+    String? id,
+    String? name,
+    String? breed,
+    String? gender,
+    String? size,
+    String? description,
+    String? imageUrl,
+    Map<String, bool>? medicalRecords,
+  }) {
+    return Dog(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      breed: breed ?? this.breed,
+      gender: gender ?? this.gender,
+      size: size ?? this.size,
+      description: description ?? this.description,
+      imageUrl: imageUrl ?? this.imageUrl,
+      medicalRecords: medicalRecords ?? this.medicalRecords,
+    );
+  }
 
   factory Dog.fromMap(Map<String, dynamic> map, String id) {
     return Dog(

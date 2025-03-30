@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:furever_home_admin/views/screens/Dogs/models/dog_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
 import 'dart:io';
@@ -69,32 +70,51 @@ class _AddDogScreenState extends State<AddDogScreen> {
 
   Future<String> _uploadImage() async {
     try {
+      final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
       if (kIsWeb && webImage != null) {
         // Create a storage reference
         final storageRef = FirebaseStorage.instance
             .ref()
             .child('dog_images')
-            .child('${DateTime.now().millisecondsSinceEpoch}.jpg');
+            .child('$timestamp.jpg');
 
-        // Upload the image
-        await storageRef.putData(webImage!);
+        // Add metadata with CORS settings
+        final metadata = SettableMetadata(
+          contentType: 'image/jpeg',
+          customMetadata: {'timestamp': timestamp},
+          cacheControl: 'public, max-age=3600',
+        );
+
+        // Upload the image with metadata
+        await storageRef.putData(
+          webImage!,
+          metadata,
+        );
 
         // Get the download URL
-        return await storageRef.getDownloadURL();
+        final downloadUrl = await storageRef.getDownloadURL();
+        return downloadUrl;
       } else if (_imageFile != null) {
         final storageRef = FirebaseStorage.instance
             .ref()
             .child('dog_images')
-            .child('${DateTime.now().millisecondsSinceEpoch}.jpg');
+            .child('$timestamp.jpg');
 
-        // Upload the file
-        await storageRef.putFile(_imageFile!);
+        // Upload the file with metadata
+        await storageRef.putFile(
+          _imageFile!,
+          SettableMetadata(
+            contentType: 'image/jpeg',
+            customMetadata: {'timestamp': timestamp},
+            cacheControl: 'public, max-age=3600',
+          ),
+        );
 
-        // Get the download URL
         return await storageRef.getDownloadURL();
       }
       throw Exception('No image selected');
     } catch (e) {
+      print('Upload error: $e'); // Add logging
       throw Exception('Failed to upload image: $e');
     }
   }
@@ -102,11 +122,25 @@ class _AddDogScreenState extends State<AddDogScreen> {
   Widget _buildImageWidget() {
     if (kIsWeb) {
       if (webImage != null) {
-        return Image.memory(webImage!, fit: BoxFit.cover);
+        return Image.memory(
+          webImage!,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            print('Image error: $error'); // Add logging
+            return const Icon(Icons.error_outline, size: 50);
+          },
+        );
       }
     } else {
       if (_imageFile != null) {
-        return Image.file(_imageFile!, fit: BoxFit.cover);
+        return Image.file(
+          _imageFile!,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            print('Image error: $error'); // Add logging
+            return const Icon(Icons.error_outline, size: 50);
+          },
+        );
       }
     }
     return const Icon(Icons.add_a_photo, size: 50);
@@ -128,7 +162,9 @@ class _AddDogScreenState extends State<AddDogScreen> {
             );
           } else if (state is DogError) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
+              SnackBar(
+                  content:
+                      Text(state.message)), // Corrected to use state.message
             );
           }
         },
@@ -261,17 +297,18 @@ class _AddDogScreenState extends State<AddDogScreen> {
                           imageData = await _uploadImage();
                         }
 
-                        context.read<DogBloc>().add(
-                              AddDog(
-                                name: _nameController.text,
-                                breed: _breedController.text,
-                                gender: _selectedGender,
-                                size: _selectedSize,
-                                medicalRecords: _medicalRecords,
-                                imageUrl: imageData,
-                                description: _descriptionController.text,
-                              ),
-                            );
+                        final dog = Dog(
+                          id: DateTime.now().millisecondsSinceEpoch.toString(),
+                          name: _nameController.text,
+                          breed: _breedController.text,
+                          gender: _selectedGender,
+                          size: _selectedSize,
+                          description: _descriptionController.text,
+                          imageUrl: imageData,
+                          medicalRecords: _medicalRecords,
+                        );
+
+                        context.read<DogBloc>().add(AddDog(dog: dog));
                       }
                     },
                     style: ElevatedButton.styleFrom(

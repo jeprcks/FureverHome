@@ -4,7 +4,6 @@ import 'package:furever_home_admin/views/screens/Events/events_list.dart';
 import 'package:furever_home_admin/views/screens/authentication/bloc/auth_bloc.dart';
 import 'package:furever_home_admin/views/screens/authentication/bloc/auth_event.dart';
 import 'package:furever_home_admin/views/screens/authentication/login/admin_signin_view.dart';
-import 'package:furever_home_admin/views/screens/Events/eventlist.dart';
 import 'package:furever_home_admin/views/screens/dashboard/dashboard.dart';
 import 'package:furever_home_admin/views/screens/donationlist/donationlist.dart';
 import 'package:furever_home_admin/views/screens/dogs/dogslist.dart';

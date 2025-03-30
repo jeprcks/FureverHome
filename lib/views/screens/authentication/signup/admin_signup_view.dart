@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:furever_home_admin/views/screens/authentication/bloc/auth_bloc.dart';
 import 'package:furever_home_admin/views/screens/authentication/bloc/auth_event.dart';
 import 'package:furever_home_admin/views/screens/authentication/bloc/auth_state.dart';
-import 'package:furever_home_admin/views/screens/dashboard/dashboard.dart';
 import 'package:furever_home_admin/views/screens/homepage/admin_homepage.dart';
 
 class AdminSignUpView extends StatefulWidget {

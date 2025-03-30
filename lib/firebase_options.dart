@@ -47,31 +47,31 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyABy6ow7XNj_Wh7ehpaUyjiao5mRx1d4c8',
-    appId: '1:916629239711:web:6951c0c58259d2e5c9efaa',
-    messagingSenderId: '916629239711',
-    projectId: 'practice-todo-example',
-    authDomain: 'practice-todo-example.firebaseapp.com',
-    storageBucket: 'practice-todo-example.appspot.com',
-    measurementId: 'G-V0RTPNT8Z1',
+    apiKey: 'AIzaSyB4T9DmL3gsEyPnn8eR_7aBJbL9y0ZlLQo',
+    appId: '1:592166870653:web:4a3fd32c40ba112fe3db14',
+    messagingSenderId: '592166870653',
+    projectId: 'furever-home-dev',
+    authDomain: 'furever-home-dev.firebaseapp.com',
+    storageBucket: 'furever-home-dev.firebasestorage.app',
+    measurementId: 'G-500F2082LW',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDT-pYXFX-kuPjS9tEZdlPggWtjPVtWehQ',
-    appId: '1:916629239711:android:2582854b5e9a7029c9efaa',
-    messagingSenderId: '916629239711',
-    projectId: 'practice-todo-example',
-    storageBucket: 'practice-todo-example.appspot.com',
+    apiKey: 'AIzaSyBjWiyow580TwHUIJz9VlXUgBIap6-1kO0',
+    appId: '1:592166870653:android:8edaa99afaeaac45e3db14',
+    messagingSenderId: '592166870653',
+    projectId: 'furever-home-dev',
+    storageBucket: 'furever-home-dev.firebasestorage.app',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyABy6ow7XNj_Wh7ehpaUyjiao5mRx1d4c8',
-    appId: '1:916629239711:web:e3e056de12292824c9efaa',
-    messagingSenderId: '916629239711',
-    projectId: 'practice-todo-example',
-    authDomain: 'practice-todo-example.firebaseapp.com',
-    storageBucket: 'practice-todo-example.appspot.com',
-    measurementId: 'G-77JR1ZP428',
+    apiKey: 'AIzaSyB4T9DmL3gsEyPnn8eR_7aBJbL9y0ZlLQo',
+    appId: '1:592166870653:web:75483b1491185b4be3db14',
+    messagingSenderId: '592166870653',
+    projectId: 'furever-home-dev',
+    authDomain: 'furever-home-dev.firebaseapp.com',
+    storageBucket: 'furever-home-dev.firebasestorage.app',
+    measurementId: 'G-SVEQZV52M8',
   );
 
 }

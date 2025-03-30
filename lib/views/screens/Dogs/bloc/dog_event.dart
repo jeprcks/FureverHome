@@ -1,25 +1,28 @@
-import 'package:furever_home_admin/views/screens/Dogs/models/dog_model.dart';
+import 'dart:io';
+import '../models/dog_model.dart';
 
 abstract class DogEvent {}
 
 class LoadDogs extends DogEvent {}
 
 class AddDog extends DogEvent {
-  final String name;
-  final String breed;
-  final String gender;
-  final String size;
-  final Map<String, bool> medicalRecords;
-  final String? imageUrl;
-  final String description;
+  final Dog dog;
+  final File? imageFile;
 
   AddDog({
-    required this.name,
-    required this.breed,
-    required this.gender,
-    required this.size,
-    required this.medicalRecords,
-    this.imageUrl,
-    required this.description,
+    required this.dog,
+    this.imageFile,
   });
+}
+
+class UpdateDog extends DogEvent {
+  final Dog dog;
+  final File? imageFile;
+
+  UpdateDog({required this.dog, this.imageFile});
+}
+
+class DeleteDog extends DogEvent {
+  final String dogId;
+  DeleteDog({required this.dogId});
 }

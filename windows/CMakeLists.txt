@@ -1,14 +1,23 @@
 # Project-level configuration.
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.15)
+
+# Prevent CMake deprecation warnings
+cmake_policy(SET CMP0135 NEW)
+
+# Set C++ compiler path explicitly
+set(CMAKE_CXX_COMPILER "C:/Program Files/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.xx.xxxxx/bin/Hostx64/x64/cl.exe")
+
 project(furever_home_admin LANGUAGES CXX)
 
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
 set(BINARY_NAME "furever_home_admin")
+set(APPLICATION_ID "com.example.furever_home_admin")
 
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.
 cmake_policy(VERSION 3.14...3.25)
+cmake_policy(SET CMP0063 NEW)
 
 # Define build configuration option.
 get_property(IS_MULTICONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
@@ -57,6 +66,36 @@ add_subdirectory("runner")
 # them to the application.
 include(flutter/generated_plugins.cmake)
 
+# Set the install RPATH
+set(CMAKE_INSTALL_RPATH "$ORIGIN/lib")
+
+# Download Firebase C++ SDK manually
+set(FIREBASE_SDK_VERSION "11.10.0")
+set(FIREBASE_SDK_DIR "${CMAKE_CURRENT_BINARY_DIR}/firebase_cpp_sdk")
+
+if(NOT EXISTS ${FIREBASE_SDK_DIR})
+    file(DOWNLOAD
+        "https://dl.google.com/firebase/sdk/cpp/firebase_cpp_sdk_windows_${FIREBASE_SDK_VERSION}.zip"
+        "${CMAKE_CURRENT_BINARY_DIR}/firebase_cpp_sdk.zip"
+        SHOW_PROGRESS
+    )
+    
+    file(ARCHIVE_EXTRACT INPUT "${CMAKE_CURRENT_BINARY_DIR}/firebase_cpp_sdk.zip"
+        DESTINATION "${CMAKE_CURRENT_BINARY_DIR}"
+    )
+endif()
+
+set(FIREBASE_CPP_SDK_DIR ${FIREBASE_SDK_DIR})
+add_subdirectory(${FIREBASE_SDK_DIR} binary_dir EXCLUDE_FROM_ALL)
+
+# Fetch and make available the Firebase C++ SDK
+include(FetchContent)
+FetchContent_Declare(
+  firebase_cpp_sdk
+  URL https://firebase.google.com/download/cpp
+  DOWNLOAD_EXTRACT_TIMESTAMP true
+)
+FetchContent_MakeAvailable(firebase_cpp_sdk)
 
 # === Installation ===
 # Support files are copied into place next to the executable, so that it can
@@ -106,3 +145,42 @@ install(DIRECTORY "${PROJECT_BUILD_DIR}/${FLUTTER_ASSET_DIR_NAME}"
 install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_DATA_DIR}"
   CONFIGURATIONS Profile;Release
   COMPONENT Runtime)
+
+# Firebase SDK Configuration
+set(FIREBASE_SDK_VERSION "11.10.0")
+set(FIREBASE_SDK_DIR "${CMAKE_CURRENT_SOURCE_DIR}/firebase_cpp_sdk")
+
+if(NOT EXISTS ${FIREBASE_SDK_DIR})
+    message(STATUS "Downloading Firebase C++ SDK...")
+    file(MAKE_DIRECTORY ${FIREBASE_SDK_DIR})
+    
+    file(DOWNLOAD
+        "https://firebase.google.com/download/cpp"
+        "${FIREBASE_SDK_DIR}/firebase_cpp_sdk.zip"
+        SHOW_PROGRESS
+    )
+    
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} -E tar xzf "${FIREBASE_SDK_DIR}/firebase_cpp_sdk.zip"
+        WORKING_DIRECTORY ${FIREBASE_SDK_DIR}
+    )
+endif()
+
+if(EXISTS ${FIREBASE_SDK_DIR})
+    add_subdirectory(${FIREBASE_SDK_DIR} binary_dir EXCLUDE_FROM_ALL)
+endif()
+
+# Flutter configuration
+set(FLUTTER_MANAGED_DIR "${CMAKE_CURRENT_SOURCE_DIR}/flutter")
+add_subdirectory(flutter)
+add_subdirectory(runner)
+
+# Firebase dependencies
+target_link_libraries(${BINARY_NAME} PRIVATE
+    firebase_core
+    firebase_auth
+    firebase_storage
+    firebase_firestore
+)
+
+list(APPEND FLUTTER_FFI_PLUGIN_LIST)
