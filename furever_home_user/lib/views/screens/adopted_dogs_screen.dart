@@ -4,7 +4,7 @@ import 'package:furever_home/views/screens/dog_screen.dart';
 import 'package:furever_home/views/screens/donation_screen.dart';
 import 'package:furever_home/views/screens/merch_screen.dart';
 import 'medical_services_screen.dart';
-import 'about_screen.dart';
+import 'package:furever_home/views/screens/home_screen.dart';
 
 class AdoptedDogsScreen extends StatefulWidget {
   const AdoptedDogsScreen({super.key});
@@ -63,9 +63,19 @@ class _AdoptedDogsScreenState extends State<AdoptedDogsScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF32649B),
         automaticallyImplyLeading: false,
-        title: Image.asset(
-          'assets/images/Furever_logo.png',
-          height: 80,
+        title: InkWell(
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeScreen(),
+              ),
+            );
+          },
+          child: Image.asset(
+            'assets/images/Furever_logo.png',
+            height: 80,
+          ),
         ),
         actions: [
           Padding(
@@ -94,6 +104,19 @@ class _AdoptedDogsScreenState extends State<AdoptedDogsScreen> {
               ),
               accountName: Text('John Doe'),
               accountEmail: Text('johndoe@example.com'),
+            ),
+             ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(),
+                  ),
+                );
+              },
             ),
             ListTile(
               leading: const Icon(Icons.event),
@@ -155,7 +178,7 @@ class _AdoptedDogsScreenState extends State<AdoptedDogsScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MedicalServicesScreen(),
+                    builder: (context) => MedicalServicesScreen(),
                   ),
                 );
               },
@@ -169,19 +192,6 @@ class _AdoptedDogsScreenState extends State<AdoptedDogsScreen> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const MerchScreen(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: const Text('About Us'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AboutScreen(),
                   ),
                 );
               },
