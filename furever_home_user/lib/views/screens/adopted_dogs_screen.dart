@@ -126,7 +126,7 @@ class _AdoptedDogsScreenState extends State<AdoptedDogsScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const EventScreen(),
+                    builder: (context) => EventScreen(),
                   ),
                 );
               },
@@ -139,7 +139,7 @@ class _AdoptedDogsScreenState extends State<AdoptedDogsScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const DogScreen(),
+                    builder: (context) => DogScreen(),
                   ),
                 );
               },
@@ -211,8 +211,23 @@ class _AdoptedDogsScreenState extends State<AdoptedDogsScreen> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Header with filter
-          Row(
+         Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 255, 185, 80),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildStatItem('2', 'Dogs\nAdopted'),
+                _buildStatItem('2', 'Years as\nAdopter'),
+                _buildStatItem('12', 'Vet Visits\nMade'),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
@@ -238,23 +253,6 @@ class _AdoptedDogsScreenState extends State<AdoptedDogsScreen> {
                 ],
               ),
             ],
-          ),
-          const SizedBox(height: 16),
-          // Stats Container
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 255, 185, 80),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildStatItem('2', 'Dogs\nAdopted'),
-                _buildStatItem('2', 'Years as\nAdopter'),
-                _buildStatItem('12', 'Vet Visits\nMade'),
-              ],
-            ),
           ),
           const SizedBox(height: 24),
           // Display cards
@@ -324,18 +322,6 @@ class _AdoptedDogsScreenState extends State<AdoptedDogsScreen> {
           )).toList(),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.pop(context); // Return to home
-          // TODO: Navigate to available dogs screen
-        },
-        backgroundColor: Colors.orange,
-        icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text(
-          'Adopt Another',
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
     );
   }
 
@@ -358,26 +344,6 @@ class _AdoptedDogsScreenState extends State<AdoptedDogsScreen> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildActionButton(IconData icon, String label, VoidCallback onTap) {
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: Colors.grey[600]),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[600],
-            ),
-          ),
-        ],
-      ),
     );
   }
 

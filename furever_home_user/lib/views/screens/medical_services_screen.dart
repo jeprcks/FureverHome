@@ -80,7 +80,7 @@ class MedicalServicesScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const EventScreen(),
+                    builder: (context) => EventScreen(),
                   ),
                 );
               },
@@ -93,7 +93,7 @@ class MedicalServicesScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const DogScreen(),
+                    builder: (context) => DogScreen(),
                   ),
                 );
               },

@@ -5,7 +5,6 @@ import 'package:furever_home/views/screens/dog_screen.dart';
 import 'package:furever_home/views/screens/donation_screen.dart';
 import 'package:furever_home/views/screens/home_screen.dart';
 import 'medical_services_screen.dart';
-import 'about_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MerchScreen extends StatefulWidget {
@@ -267,7 +266,7 @@ class _MerchScreenState extends State<MerchScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const EventScreen(),
+                    builder: (context) => EventScreen(),
                   ),
                 );
               },
@@ -280,7 +279,7 @@ class _MerchScreenState extends State<MerchScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const DogScreen(),
+                    builder: (context) => DogScreen(),
                   ),
                 );
               },

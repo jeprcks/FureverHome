@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const EventScreen(),
+                    builder: (context) => EventScreen(),
                   ),
                 );
               },
@@ -166,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const DogScreen(),
+                    builder: (context) => DogScreen(),
                   ),
                 );
               },
@@ -321,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
               // Quick Actions
               Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(25),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -598,14 +598,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const EventScreen(),
+              builder: (context) => EventScreen(),
             ),
           );
         } else if (title == 'Want to Adopt?') {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const DogScreen(),
+              builder: (context) => DogScreen(),
             ),
           );
         } else if (title == 'Adopted') {
@@ -642,8 +642,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         elevation: 4,
         color: color,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: Column(
@@ -756,7 +757,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 end: Alignment.topCenter,
                 colors: [
                   Colors.black.withOpacity(0.1),
-                  Colors.black.withOpacity(0.7),
+                  Colors.black.withOpacity(0.6),
                 ],
               ),
             ),
