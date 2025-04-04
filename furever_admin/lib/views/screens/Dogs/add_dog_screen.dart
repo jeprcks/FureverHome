@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:convert';
 import 'bloc/dog_bloc.dart';
 import 'bloc/dog_event.dart';
 import 'bloc/dog_state.dart';
@@ -32,6 +33,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
   String _selectedSize = 'Medium';
   final _descriptionController = TextEditingController();
   File? _imageFile;
+  String? imageData;
   final _picker = ImagePicker();
   Uint8List? webImage; // Add this for web support
 
@@ -45,25 +47,29 @@ class _AddDogScreenState extends State<AddDogScreen> {
 
   Future<void> _pickImage() async {
     try {
-      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      final ImagePicker picker = ImagePicker();
+      final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      
       if (pickedFile != null) {
+        setState(() {
+          _imageFile = File(pickedFile.path);
+        });
+        
+        // Convert image to base64
         if (kIsWeb) {
-          // Handle web platform
           final bytes = await pickedFile.readAsBytes();
           setState(() {
-            webImage = bytes;
+            imageData = base64Encode(bytes);
           });
         } else {
-          // Handle mobile platform
+          final bytes = await _imageFile!.readAsBytes();
           setState(() {
-            _imageFile = File(pickedFile.path);
+            imageData = base64Encode(bytes);
           });
         }
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error picking image: $e')),
-      );
+      print('Error picking image: $e');
     }
   }
 
@@ -219,26 +225,23 @@ class _AddDogScreenState extends State<AddDogScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        String imageData = '';
-                        if (kIsWeb && webImage != null) {
-                          imageData = webImage.toString();
-                        } else if (_imageFile != null) {
-                          imageData = _imageFile!.path;
-                        }
-
+                    onPressed: () {
+                      if (_formKey.currentState!.validate() && imageData != null) {
                         context.read<DogBloc>().add(
-                              AddDog(
-                                name: _nameController.text,
-                                breed: _breedController.text,
-                                gender: _selectedGender,
-                                size: _selectedSize,
-                                medicalRecords: _medicalRecords,
-                                imageUrl: imageData,
-                                description: _descriptionController.text,
-                              ),
-                            );
+                          AddDog(
+                            name: _nameController.text,
+                            breed: _breedController.text,
+                            gender: _selectedGender,
+                            size: _selectedSize,
+                            medicalRecords: _medicalRecords,
+                            imageUrl: imageData!, // Now imageData won't be null
+                            description: _descriptionController.text,
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Please select an image')),
+                        );
                       }
                     },
                     style: ElevatedButton.styleFrom(

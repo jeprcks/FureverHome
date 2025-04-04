@@ -2,49 +2,46 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dog_event.dart';
 import 'dog_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:html' as html; // Add for web
 import 'package:flutter/foundation.dart';
-import 'dart:typed_data';
+import 'dart:convert';
 
 class DogBloc extends Bloc<DogEvent, DogState> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   DogBloc() : super(DogInitial()) {
     on<AddDog>((event, emit) async {
       try {
         emit(DogLoading());
 
-        String imageUrl = '';
-        if (event.imageUrl.isNotEmpty) {
-          final storageRef = FirebaseStorage.instance.ref();
-          final imageRef = storageRef
-              .child('dogs/${DateTime.now().millisecondsSinceEpoch}.jpg');
-
+        String? base64Image;
+        if (event.imageFile != null) {
           if (kIsWeb) {
-            // Handle web image upload
-            final bytes = Uint8List.fromList(event.imageUrl.codeUnits);
-            await imageRef.putData(bytes);
+            // Web specific image handling
+            final reader = html.FileReader();
+            reader.readAsArrayBuffer(event.imageFile as html.File);
+            await reader.onLoad.first;
+            final bytes = reader.result as List<int>;
+            base64Image = base64Encode(bytes);
           } else {
-            // Handle mobile image upload
-            final file = File(event.imageUrl);
-            await imageRef.putFile(file);
+            // For mobile
+            final bytes = await event.imageFile!.readAsBytes();
+            base64Image = base64Encode(bytes);
           }
-
-          imageUrl = await imageRef.getDownloadURL();
         }
 
-        await FirebaseFirestore.instance.collection('dogs').add({
+        await _firestore.collection('dogs').add({
           'name': event.name,
           'breed': event.breed,
-          'gender': event.gender,
-          'size': event.size,
-          'medicalRecords': event.medicalRecords,
-          'imageUrl': imageUrl,
           'description': event.description,
+          'imageData': base64Image, // Store image as Base64
           'createdAt': FieldValue.serverTimestamp(),
+          'status': 'available',
         });
 
         emit(DogSuccess());
       } catch (e) {
+        print('Error: $e'); // Debug log
         emit(DogError(e.toString()));
       }
     });
