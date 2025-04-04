@@ -13,7 +13,8 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final PageController _pageController = PageController();
   Timer? _timer;
@@ -45,7 +46,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     );
 
     _slideAnimation = Tween<Offset>(
-      begin: const Offset(-1.0, 0.0), // Start from left (-1.0) instead of right (1.0)
+      begin: const Offset(
+          -1.0, 0.0), // Start from left (-1.0) instead of right (1.0)
       end: Offset.zero, // End at original position
     ).animate(CurvedAnimation(
       parent: _controller,
@@ -290,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Help them find a home',
+                          'Help them find a homeS',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 28,
@@ -430,128 +432,134 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               _buildAnimatedValues(),
               const SizedBox(height: 20),
 
-            Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: const BoxDecoration(
-              color: Color(0xFF32649B),
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Location Info
-                Expanded(
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 10,
-                        backgroundColor: const Color.fromARGB(255, 46, 199, 255),
-                        child: const Icon(Icons.location_on, size: 13 ,color: Colors.white),
-                      ),
-                      const SizedBox(width: 5),
-                      const Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Visit Us',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              '123 Pet Street, Manila',
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: Colors.white70,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: const BoxDecoration(
+                  color: Color(0xFF32649B),
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 ),
-                
-                // Email Info
-                Expanded(
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 10,
-                        backgroundColor: const Color.fromARGB(255, 46, 199, 255),
-                        child: const Icon(Icons.email, size: 13 ,color: Colors.white),
-                      ),
-                      const SizedBox(width: 8),
-                      const Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Email Us',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.white,
-                              ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Location Info
+                    Expanded(
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 10,
+                            backgroundColor:
+                                const Color.fromARGB(255, 46, 199, 255),
+                            child: const Icon(Icons.location_on,
+                                size: 13, color: Colors.white),
+                          ),
+                          const SizedBox(width: 5),
+                          const Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Visit Us',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  '123 Pet Street, Manila',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.white70,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
-                            Text(
-                              'contact@fureverhome.org',
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: Colors.white70,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+
+                    // Email Info
+                    Expanded(
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 10,
+                            backgroundColor:
+                                const Color.fromARGB(255, 46, 199, 255),
+                            child: const Icon(Icons.email,
+                                size: 13, color: Colors.white),
+                          ),
+                          const SizedBox(width: 8),
+                          const Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Email Us',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  'contact@fureverhome.org',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.white70,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Phone Info
+                    Expanded(
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 10,
+                            backgroundColor:
+                                const Color.fromARGB(255, 46, 199, 255),
+                            child: const Icon(Icons.phone,
+                                size: 13, color: Colors.white),
+                          ),
+                          const SizedBox(width: 8),
+                          const Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Call Us',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  '+63 123 456 7890',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.white70,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                
-                // Phone Info
-                Expanded(
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 10,
-                        backgroundColor: const Color.fromARGB(255, 46, 199, 255),
-                        child: const Icon(Icons.phone, size: 13 ,color: Colors.white),
-                      ),
-                      const SizedBox(width: 8),
-                      const Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Call Us',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              '+63 123 456 7890',
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: Colors.white70,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+              ),
             ],
           ),
         ),
@@ -680,8 +688,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     );
   }
 
-
- 
   Widget _buildAnimatedMission() {
     return SlideTransition(
       position: _slideAnimation,
@@ -786,7 +792,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                
               ],
             ),
           ),
