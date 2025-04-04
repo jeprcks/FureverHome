@@ -292,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Help them find a homeS',
+                          'Help them find a homes',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 28,
